@@ -39,9 +39,9 @@ def home():
 
     if city:
         url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units={unit}"
-        response = requests.get(url)
-
-        if response.status_code == 200:
+        try:
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()  # Raises HTTPError for bad responses
             data = response.json()
             weather = {
                 "city": data["name"],
@@ -67,8 +67,11 @@ def home():
                 history.pop()
 
             save_history()
-        else:
-            error = "City not found. Please try again."
+
+        except requests.exceptions.HTTPError:
+            error = "City not found. Please check the name."
+        except requests.exceptions.RequestException:
+            error = "Network error. Please try again later."
     elif request.method == "POST":
         error = "Please enter a valid city name."
 

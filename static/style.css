@@ -171,3 +171,32 @@ h1 {
   color: #fff;
   border: 1px solid #555;
 }
+/* Responsive for mobile */
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+  .card {
+    width: 100%;
+  }
+  .form input, .form button, .form select {
+    width: 100%;
+    margin: 5px 0;
+  }
+  .result .kv div {
+    font-size: 14px;
+  }
+}
+
+/* Card and icon enhancements (works with dark/light mode) */
+.card {
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.icon {
+  width: 80px;
+  height: 80px;
+}
+
