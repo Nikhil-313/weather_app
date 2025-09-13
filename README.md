@@ -1,6 +1,8 @@
 # 🌤️ Weather App
 A modern, responsive web-based Weather App built with Flask, HTML/CSS, and the OpenWeatherMap API for real-time weather information.
 
+🌐 **Live Site:** [Weather App on Render](https://weather-app-8lct.onrender.com)
+
 ## 🗄️ Data Storage
 ✅ Local Files
 - history.txt: Stores the last 5 searched cities for quick access
