@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Weather App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <button id="darkToggle" class="btn" style="float:right;">🌙 Dark Mode</button>
+      <h1>Weather App</h1>
+
+      <form method="POST" class="form" id="weatherForm">
+        <input class="input" type="text" name="city" placeholder="Enter city name" value="{{ city or '' }}" required />
+
+        <button class="btn" type="submit">Get Weather</button>
+
+        <select name="unit" class="p-2 rounded-lg text-black" onchange="document.getElementById('weatherForm').submit()">
+          <option value="metric" {% if unit == "metric" %}selected{% endif %}>°C</option>
+          <option value="imperial" {% if unit == "imperial" %}selected{% endif %}>°F</option>
+          <option value="standard" {% if unit == "standard" %}selected{% endif %}>K</option>
+        </select>
+      </form>
+
+      {% if error %}
+        <div class="error">⚠ {{ error }}</div>
+      {% endif %}
+
+      {% if weather %}
+        <div class="result">
+          <div class="meta">
+            <img class="icon" src="https://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="icon" />
+            <div>
+              <div class="city">{{ weather.city }}</div>
+              <div>{{ weather.desc }}</div>
+            </div>
+          </div>
+
+          <div class="kv">
+            <div>
+              🌡 Temp: {{ weather.temp }}
+              {% if unit == "metric" %}°C{% elif unit == "imperial" %}°F{% else %}K{% endif %}
+            </div>
+
+            <div>
+              🤗 Feels: {{ weather.feels }}
+              {% if unit == "metric" %}°C{% elif unit == "imperial" %}°F{% else %}K{% endif %}
+            </div>
+
+            <div>
+              🌬️ Wind Speed: {{ weather.wind }}
+              {% if unit == "imperial" %} mph{% else %} m/s{% endif %}
+            </div>
+
+            <div>💧 Humidity: {{ weather.humidity }}%</div>
+            <div>📊 Pressure: {{ weather.pressure }} hPa</div>
+            <div>🌅 Sunrise: {{ weather.sunrise }}</div>
+            <div>🌇 Sunset: {{ weather.sunset }}</div>
+          </div>
+      {% endif %}
+
+      {% if history %}
+        <div class="history">
+          <h3>Search History</h3>
+          <ul>
+            {% for city in history %}
+              <li><a href="{{ url_for('home', city=city) }}">{{ city }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    const toggle = document.getElementById("darkToggle");
+    toggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      toggle.textContent = document.body.classList.contains("dark-mode") 
+        ? "☀️ Light Mode" 
+        : "🌙 Dark Mode";
+    });
+  </script>
+</body>
+</html>
